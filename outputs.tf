@@ -13,6 +13,11 @@ output "db_port" {
   value       = module.rds.db_port
 }
 
+output "rds_security_group_id" {
+  description = "Security group do RDS. Consumido pelo repositório serverless para liberar acesso da Lambda de autenticação."
+  value       = module.rds.rds_security_group_id
+}
+
 output "db_connection_string" {
   description = "DATABASE_URL completa para uso na aplicação"
   value       = "postgresql://${var.db_username}:${var.db_password}@${module.rds.db_endpoint}/${var.db_name}?schema=public"
