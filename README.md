@@ -3,6 +3,17 @@
 Infraestrutura como código (Terraform) para os recursos de dados (banco de dados gerenciado)
 da oficina mecânica.
 
+## Arquitetura deste repositório
+
+```mermaid
+flowchart LR
+    kubeRepo["soat-fiap-oficina-mecanica-infra-kube<br/>(state remoto)"] -->|"vpc_id, private_subnet_ids,<br/>node/cluster security groups"| remoteState["data.terraform_remote_state<br/>(remote_state.tf)"]
+    remoteState --> rdsModule["module.rds (rds.tf)"]
+    rdsModule --> rds[("RDS PostgreSQL 16<br/>subnet privada")]
+    rds -->|"security group libera<br/>apenas EKS nodes + Lambda"| appRepo["soat-fiap-oficina-mecanica<br/>(via DATABASE_URL)"]
+    rds -->|idem| serverlessRepo["soat-fiap-oficina-mecanica-serverless<br/>(via rds_security_group_id)"]
+```
+
 ## O que este repositório provisiona
 
 - **RDS PostgreSQL 16** (`aws_db_instance`), em subnets privadas, criptografado em repouso.
