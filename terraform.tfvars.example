@@ -1,0 +1,13 @@
+project_name = "oficina-mecanica"
+aws_region   = "us-east-1"
+environment  = "dev"
+
+# Mesmo bucket configurado no backend S3 (bucket = ... no -backend-config do CI/CD)
+tf_state_bucket = "oficina-mecanica-terraform-state"
+
+db_name              = "oficina"
+db_username          = "postgres"
+# db_password        = definido via TF_VAR_db_password (nunca commitar em texto plano)
+db_instance_class    = "db.t3.micro"
+db_allocated_storage = 20
+db_backup_retention  = 0
